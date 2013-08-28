@@ -11,18 +11,21 @@
     <table style="text-align: center;" border="1px" cellpadding="0" cellspacing="0" >
       <thead>
         <tr>
-          <th width="25px">id</th><th width="150px">company</th><th width="25px">employees</th><th width="50px">actions</th>
+          <th width="25px">id</th>
+          <th width="150px">E-Mail</th>
+          <th width="25px">Bucket</th>
+          <th width="50px">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <c:forEach var="shop" items="${shopList}">
+        <c:forEach var="emailToBucket" items="${emailToBucketList}">
           <tr>
-            <td>${shop.id}</td>
-            <td>${shop.name}</td>
-            <td>${shop.emplNumber}</td>
+            <td>${emailToBucket.id}</td>
+            <td>${emailToBucket.email}</td>
+            <td>${emailToBucket.bucket}</td>
             <td>
-              <a href="${pageContext.request.contextPath}/shop/edit/${shop.id}.html">Edit</a><br/>
-              <a href="${pageContext.request.contextPath}/shop/delete/${shop.id}.html">Delete</a><br/>
+              <a href="${pageContext.request.contextPath}/shop/edit/${emailToBucket.id}">Edit</a><br/>
+              <a href="${pageContext.request.contextPath}/shop/delete/${emailToBucket.id}">Delete</a><br/>
             </td>
           </tr>
         </c:forEach>
