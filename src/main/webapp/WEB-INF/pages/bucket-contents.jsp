@@ -4,28 +4,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <title>Bucket List</title>
+    <title>${bucket.name} Contents</title>
   </head>
   <body>
     <h1>Shop List page</h1>
     <table style="text-align: center;" border="1px" cellpadding="0" cellspacing="0" >
       <thead>
         <tr>
-          <th width="25px">id</th>
-          <th width="150px">E-Mail</th>
-          <th width="25px">Bucket</th>
-          <th width="50px">Actions</th>
+          <th width="100px">Contents</th>
         </tr>
       </thead>
       <tbody>
-        <c:forEach var="emailToBucket" items="${emailToBucketList}">
+        <c:forEach var="content" items="${contentList}">
           <tr>
-            <td>${emailToBucket.id}</td>
-            <td>${emailToBucket.email}</td>
-            <td>${emailToBucket.bucket}</td>
             <td>
-              <a href="${pageContext.request.contextPath}/admin/emailToBucket/edit/${emailToBucket.id}.html">Edit</a><br/>
-              <a href="${pageContext.request.contextPath}/admin/emailToBucket/${emailToBucket.id}.html">Delete</a><br/>
+              <!-- Turn this into a post through JS? -->
+              <a href="${pageContext.request.contextPath}/redirect/${bucket}/${content.name}">${content.name}</a>
             </td>
           </tr>
         </c:forEach>
