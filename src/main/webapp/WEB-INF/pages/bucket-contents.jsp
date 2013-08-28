@@ -18,14 +18,14 @@
         </tr>
       </thead>
       <tbody>
-        <c:forEach var="emailToBucket" items="${emailToBlucketList}">
+        <c:forEach var="emailToBucket" items="${emailToBucketList}">
           <tr>
             <td>${emailToBucket.id}</td>
             <td>${emailToBucket.email}</td>
             <td>${emailToBucket.bucket}</td>
             <td>
-              <a href="${pageContext.request.contextPath}/shop/edit/${shop.id}.html">Edit</a><br/>
-              <a href="${pageContext.request.contextPath}/shop/delete/${shop.id}.html">Delete</a><br/>
+              <a href="${pageContext.request.contextPath}/admin/emailToBucket/edit/${emailToBucket.id}.html">Edit</a><br/>
+              <a href="${pageContext.request.contextPath}/admin/emailToBucket/${emailToBucket.id}.html">Delete</a><br/>
             </td>
           </tr>
         </c:forEach>
