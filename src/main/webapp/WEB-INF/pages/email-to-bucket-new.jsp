@@ -8,18 +8,18 @@
   </head>
   <body>
     <h1>New Shop page</h1>
-    <form:form method="POST" commandName="shop" action="${pageContext.request.contextPath}/shop/create.html" >
+    <form:form method="POST" commandName="emailToBucket" action="${pageContext.request.contextPath}/admin/emailToBucket/create" >
       <table>
         <tbody>
           <tr>
             <td>Shop name:</td>
-            <td><form:input path="name" /></td>
-            <td><form:errors path="name" cssStyle="color: red;"/></td>
+            <td><form:input path="email" /></td>
+            <td><form:errors path="email" cssStyle="color: red;"/></td>
           </tr>
           <tr>
             <td>Employees number:</td>
-            <td><form:input path="emplNumber" /></td>
-            <td><form:errors path="emplNumber" cssStyle="color: red;"/></td>
+            <td><form:input path="bucket" /></td>
+            <td><form:errors path="bucket" cssStyle="color: red;"/></td>
           </tr>
           <tr>
             <td><input type="submit" value="Create" /></td>

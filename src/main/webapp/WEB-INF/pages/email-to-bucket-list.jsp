@@ -8,6 +8,7 @@
   </head>
   <body>
     <h1>Shop List page</h1>
+    <a href="${pageContext.request.contextPath}/admin/emailToBucket/create">New</a><br/>
     <table style="text-align: center;" border="1px" cellpadding="0" cellspacing="0" >
       <thead>
         <tr>
@@ -24,8 +25,8 @@
             <td>${emailToBucket.email}</td>
             <td>${emailToBucket.bucket}</td>
             <td>
-              <a href="${pageContext.request.contextPath}/shop/edit/${emailToBucket.id}">Edit</a><br/>
-              <a href="${pageContext.request.contextPath}/shop/delete/${emailToBucket.id}">Delete</a><br/>
+              <a href="${pageContext.request.contextPath}/admin/emailToBucket/edit/${emailToBucket.id}">Edit</a><br/>
+              <a href="${pageContext.request.contextPath}/admin/emailToBucket/delete/${emailToBucket.id}">Delete</a><br/>
             </td>
           </tr>
         </c:forEach>
