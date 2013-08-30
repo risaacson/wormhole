@@ -88,12 +88,12 @@ public class WebAppConfig {
 		return resolver;
 	}
 	
-	@Bean
-	public ResourceBundleMessageSource messageSource() {
-		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-		source.setBasename(env.getRequiredProperty("message.source.basename"));
-		source.setUseCodeAsDefaultMessage(true);
-		return source;
-	}
+//	@Bean
+//	public ResourceBundleMessageSource messageSource() {
+//		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+//		source.setBasename(env.getRequiredProperty("message.source.basename"));
+//		source.setUseCodeAsDefaultMessage(true);
+//		return source;
+//	}
 
 }
