@@ -26,11 +26,11 @@ public class EmailToBucketController {
   private EmailToBucketService emailToBucketService;
 
   @Autowired
-  private EmailToBucketValidator emailTobucketValidator;
+  private EmailToBucketValidator emailToBucketValidator;
 
   @InitBinder
   private void initBinder(WebDataBinder binder) {
-    binder.setValidator(emailTobucketValidator);
+    binder.setValidator(emailToBucketValidator);
   }
 
   @RequestMapping(value="/create", method= RequestMethod.GET)
