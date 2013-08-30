@@ -24,7 +24,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan("com.spr")
+@ComponentScan("com.eucalyptus.wormhole")
 @PropertySource("classpath:application.properties")
 @EnableJpaRepositories("com.eucalyptus.wormhole.repository")
 public class WebAppConfig {
