@@ -72,7 +72,7 @@ public class EmailToBucketController {
     ModelAndView modelAndView = new ModelAndView("email-to-bucket-edit");
 
     EmailToBucket emailToBucket = emailToBucketService.findById(id);
-    modelAndView.addObject("email-to-bucket", emailToBucket);
+    modelAndView.addObject("emailToBucket", emailToBucket);
 
     return modelAndView;
 
