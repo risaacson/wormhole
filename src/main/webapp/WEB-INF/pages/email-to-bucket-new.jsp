@@ -8,16 +8,16 @@
   </head>
   <body>
     <h1>New E-Mail to Bucket</h1>
-    <form:form method="POST" commandName="emailToBucket" action="${pageContext.request.contextPath}/admin/emailToBucket/create" >
+    <form:form method="POST" commandName="email-to-bucket" action="${pageContext.request.contextPath}/admin/emailToBucket/create" >
       <table>
         <tbody>
           <tr>
-            <td>Shop name:</td>
+            <td>E-mail:</td>
             <td><form:input path="email" /></td>
             <td><form:errors path="email" cssStyle="color: red;"/></td>
           </tr>
           <tr>
-            <td>Employees number:</td>
+            <td>Bucket:</td>
             <td><form:input path="bucket" /></td>
             <td><form:errors path="bucket" cssStyle="color: red;"/></td>
           </tr>
