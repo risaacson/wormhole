@@ -4,10 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <title>Edit Shop page</title>
+    <title>Edit E-Mail to Bucket</title>
   </head>
   <body>
-    <h1>Edit Shop page</h1>
+    <h1>Edit E-mail to Bucket</h1>
     <form:form method="POST" commandName="emailToBucket" action="${pageContext.request.contextPath}/admin/emailToBucket/edit/${emailToBucket.id}.html" >
       <table>
         <tbody>

@@ -4,10 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <title>Shop List page</title>
+    <title>E-Mail to Bucket</title>
   </head>
   <body>
-    <h1>Shop List page</h1>
+    <h1>E-mail to Bucket</h1>
     <a href="${pageContext.request.contextPath}/admin/emailToBucket/create">New</a><br/>
     <table style="text-align: center;" border="1px" cellpadding="0" cellspacing="0" >
       <thead>
