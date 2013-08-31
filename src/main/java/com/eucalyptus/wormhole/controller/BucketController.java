@@ -46,19 +46,19 @@ public class BucketController {
 
     for(Bucket bucket : s3.listBuckets()) {
       //TODO Remove this.
-      System.out.println(bucket.getName());
+      //System.out.println(bucket.getName());
       if(bucket.getName().startsWith(bucketPrefix)) bucketList.add(bucket.getName());
     }
 
-    //TODO remove over pump into logger.
-    System.out.println("bucketList size: " + bucketList.size());
+    //TODO remove or pump into logger.
+    //System.out.println("bucketList size: " + bucketList.size());
 
     modelAndView.addObject("bucketList", bucketList);
     return modelAndView;
 
   }
 
-  @RequestMapping(value="/list/{bucket}", method= RequestMethod.GET)
+  @RequestMapping(value="/list/{bucketName}", method= RequestMethod.GET)
   public ModelAndView listBucketContentsPage(@PathVariable String bucketName) {
 
     ModelAndView modelAndView = new ModelAndView("bucket-objects-list");
@@ -70,7 +70,7 @@ public class BucketController {
       objectList.put(objectSummary.getKey(), objectSummary.getSize());
     }
 
-    //TODO remove over pump into logger.
+    //TODO remove or pump into logger.
     System.out.println("objectList size: " + objectList.size());
 
     modelAndView.addObject("bucket", bucketName);
