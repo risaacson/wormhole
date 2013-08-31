@@ -45,8 +45,13 @@ public class BucketController {
     List<String> bucketList = new LinkedList<>();
 
     for(Bucket bucket : s3.listBuckets()) {
+      //TODO Remove this.
+      System.out.println(bucket.getName());
       if(bucket.getName().startsWith(bucketPrefix)) bucketList.add(bucket.getName());
     }
+
+    //TODO remove over pump into logger.
+    System.out.println("bucketList size: " + bucketList.size());
 
     modelAndView.addObject("bucketList", bucketList);
     return modelAndView;
@@ -64,6 +69,9 @@ public class BucketController {
     for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
       objectList.put(objectSummary.getKey(), objectSummary.getSize());
     }
+
+    //TODO remove over pump into logger.
+    System.out.println("objectList size: " + objectList.size());
 
     modelAndView.addObject("bucket", bucketName);
     modelAndView.addObject("objectList", objectList);
