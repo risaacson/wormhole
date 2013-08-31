@@ -1,16 +1,21 @@
 package com.eucalyptus.wormhole.controller;
 
+import com.amazonaws.HttpMethod;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
-import com.amazonaws.services.s3.model.ObjectListing;
-import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.PostConstruct;
+import java.net.URL;
+import java.util.*;
 
 /**
  */
@@ -18,15 +23,28 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/bucket")
 public class BucketController {
 
-  AmazonS3 s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
+  private AmazonS3 s3;
+
+  @PostConstruct
+  public void init() {
+    s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
+    //TODO pull out the region and put into a config file.
+    Region usWest2 = Region.getRegion(Regions.US_WEST_2);
+    s3.setRegion(usWest2);
+  }
 
   @RequestMapping(value="/list", method= RequestMethod.GET)
   public ModelAndView listAllBucketsPage() {
 
     ModelAndView modelAndView = new ModelAndView("buckets-list");
 
-    s3.listBuckets();
+    List<String> bucketList = new LinkedList<>();
 
+    for(Bucket bucket : s3.listBuckets()) {
+      bucketList.add(bucket.getName());
+    }
+
+    modelAndView.addObject("bucketList", bucketList);
     return modelAndView;
 
   }
@@ -34,24 +52,33 @@ public class BucketController {
   @RequestMapping(value="/list/{bucket}", method= RequestMethod.GET)
   public ModelAndView listBucketContentsPage(@PathVariable String bucketName) {
 
-    ModelAndView modelAndView = new ModelAndView("bucket-contents-list");
+    ModelAndView modelAndView = new ModelAndView("bucket-objects-list");
 
-    ObjectListing objectListing = s3.listObjects(new ListObjectsRequest()
-        .withBucketName(bucketName));
-    objectListing.getObjectSummaries();
+    Map<String, Long> objectList = new TreeMap<>();
 
+    ObjectListing objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucketName));
+    for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+      objectList.put(objectSummary.getKey(), objectSummary.getSize());
+    }
+
+    modelAndView.addObject("bucket", bucketName);
+    modelAndView.addObject("objectList", objectList);
     return modelAndView;
 
   }
 
-  @RequestMapping(value="/redirect/{bucket}/{file}", method= RequestMethod.GET)
-  public ModelAndView redirectBucketObjectPage(@PathVariable String bucketName, @PathVariable String fileName) {
+  @RequestMapping(value="/redirect/{bucket}/{key}", method= RequestMethod.GET)
+  public ModelAndView redirectBucketObjectPage(@PathVariable String bucketName, @PathVariable String key) {
 
     ModelAndView modelAndView = new ModelAndView("bucket-object-redirect");
 
-    S3Object s3Object = s3.getObject("foo", "bar");
-    s3Object.getRedirectLocation();
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(new Date());
+    cal.add(Calendar.HOUR_OF_DAY, 1);
+    Date expirationDate = cal.getTime();
+    URL url = s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucketName, key).withMethod(HttpMethod.GET).withExpiration(expirationDate));
 
+    modelAndView.addObject("objectUrl", url.toString());
     return modelAndView;
 
   }

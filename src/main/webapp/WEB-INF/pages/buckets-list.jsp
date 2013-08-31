@@ -4,22 +4,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <title>${bucket.name} Contents</title>
+    <title>Bucket List</title>
   </head>
   <body>
-    <h1>Shop List page</h1>
+    <h1>Bucket List</h1>
     <table style="text-align: center;" border="1px" cellpadding="0" cellspacing="0" >
       <thead>
         <tr>
-          <th width="100px">Contents</th>
+          <th width="150px">Bucket</th>
         </tr>
       </thead>
       <tbody>
-        <c:forEach var="content" items="${contentList}">
+        <c:forEach var="bucket" items="${bucketList}">
           <tr>
             <td>
-              <!-- Turn this into a post through JS? -->
-              <a href="${pageContext.request.contextPath}/redirect/${bucket}/${content.name}">${content.name}</a>
+              <a href="${pageContext.request.contextPath}/bucket/list/${bucket}">${bucket}</a>
             </td>
           </tr>
         </c:forEach>
