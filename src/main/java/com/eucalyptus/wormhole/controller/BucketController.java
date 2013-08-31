@@ -24,6 +24,7 @@ import java.util.*;
 public class BucketController {
 
   private AmazonS3 s3;
+  private String bucketPrefix;
 
   @PostConstruct
   public void init() {
@@ -31,6 +32,9 @@ public class BucketController {
     //TODO pull out the region and put into a config file.
     Region usWest2 = Region.getRegion(Regions.US_WEST_2);
     s3.setRegion(usWest2);
+
+    //TODO pull out the prefix and put into a config file.
+    bucketPrefix = "blackhole-dev";
   }
 
   @RequestMapping(value="/list", method= RequestMethod.GET)
@@ -41,7 +45,7 @@ public class BucketController {
     List<String> bucketList = new LinkedList<>();
 
     for(Bucket bucket : s3.listBuckets()) {
-      bucketList.add(bucket.getName());
+      if(bucket.getName().startsWith(bucketPrefix)) bucketList.add(bucket.getName());
     }
 
     modelAndView.addObject("bucketList", bucketList);
