@@ -20,7 +20,7 @@
           <tr>
             <td>
               <!-- Turn this into a post through JS? -->
-              <a href="${pageContext.request.contextPath}/redirect/${bucket}/${object.key}">${object.key}</a>
+              <a href="${pageContext.request.contextPath}/bucket/redirect/${bucket}/${object.key}">${object.key}</a>
             </td>
             <td>
               ${object.value}
