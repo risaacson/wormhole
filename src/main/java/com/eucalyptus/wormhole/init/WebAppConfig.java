@@ -47,9 +47,9 @@ public class WebAppConfig {
 
 		dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
 		dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-    System.out.println(dataSource.getUrl());
+//    System.out.println(dataSource.getUrl());
 		dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
-    System.out.println(dataSource.getUsername());
+//    System.out.println(dataSource.getUsername());
 		dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
 
 		return dataSource;

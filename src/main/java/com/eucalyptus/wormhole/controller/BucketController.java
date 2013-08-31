@@ -79,7 +79,7 @@ public class BucketController {
 
   }
 
-  @RequestMapping(value="/redirect/{bucket}/{key}", method= RequestMethod.GET)
+  @RequestMapping(value="/redirect/{bucketName}/{key}", method= RequestMethod.GET)
   public ModelAndView redirectBucketObjectPage(@PathVariable String bucketName, @PathVariable String key) {
 
     ModelAndView modelAndView = new ModelAndView("bucket-object-redirect");
