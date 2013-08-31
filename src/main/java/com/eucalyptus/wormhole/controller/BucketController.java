@@ -86,7 +86,7 @@ public class BucketController {
 
     Calendar cal = Calendar.getInstance();
     cal.setTime(new Date());
-    cal.add(Calendar.HOUR_OF_DAY, 1);
+    cal.add(Calendar.HOUR_OF_DAY, 6);
     Date expirationDate = cal.getTime();
     URL url = s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucketName, key).withMethod(HttpMethod.GET).withExpiration(expirationDate));
 
