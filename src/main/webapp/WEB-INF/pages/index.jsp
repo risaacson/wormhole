@@ -9,7 +9,7 @@
     <h1>Wormhole</h1>
     <p>
       <i>${message}</i><br/>
-      <a href="${pageContext.request.contextPath}/admin">Administration</a><br/>
+      <a href="${pageContext.request.contextPath}/admin/">Administration</a><br/>
       <a href="${pageContext.request.contextPath}/bucket/list">Buckets</a><br/>
     </p>
   </body>
