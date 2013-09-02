@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <style type="text/css" title="currentStyle">
-      @import "css/eucalyptus.css";
+      @import "resources/css/eucalyptus.css";
     </style>
     <title>Wormhole</title>
   </head>
