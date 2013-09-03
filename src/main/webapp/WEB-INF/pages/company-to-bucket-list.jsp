@@ -13,7 +13,7 @@
       <thead>
         <tr>
           <th width="25px">id</th>
-          <th width="150px">E-Mail</th>
+          <th width="150px">Company</th>
           <th width="25px">Bucket</th>
           <th width="50px">Actions</th>
         </tr>
