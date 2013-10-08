@@ -40,7 +40,7 @@ public class BucketController {
   public void init() {
     ClientConfiguration clientConfiguration = new ClientConfiguration();
     //TODO Of course this should be pulled from the config file.
-    clientConfiguration.setProxyHost("riakcslb.recycledthoughts.org");
+    clientConfiguration.setProxyHost("10.23.0.169");
     clientConfiguration.setProxyPort(8080);
     s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider(), clientConfiguration);
     //TODO pull out the region and put into a config file.
