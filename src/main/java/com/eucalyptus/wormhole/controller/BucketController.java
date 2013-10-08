@@ -2,6 +2,7 @@ package com.eucalyptus.wormhole.controller;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.HttpMethod;
+import com.amazonaws.Protocol;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
@@ -40,6 +41,7 @@ public class BucketController {
   public void init() {
     ClientConfiguration clientConfiguration = new ClientConfiguration();
     //TODO Of course this should be pulled from the config file.
+    clientConfiguration.setProtocol(Protocol.HTTP);
     clientConfiguration.setProxyHost("10.23.0.170");
     clientConfiguration.setProxyPort(8080);
     s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider(), clientConfiguration);
