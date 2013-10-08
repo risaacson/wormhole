@@ -1,12 +1,17 @@
 package com.eucalyptus.wormhole.controller;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  */
@@ -28,7 +38,11 @@ public class BucketController {
 
   @PostConstruct
   public void init() {
-    s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
+    ClientConfiguration clientConfiguration = new ClientConfiguration();
+    //TODO Of course this should be pulled from the config file.
+    clientConfiguration.setProxyHost("riakcslb.recycledthoughts.org");
+    clientConfiguration.setProxyPort(8080);
+    s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider(), clientConfiguration);
     //TODO pull out the region and put into a config file.
     Region usWest2 = Region.getRegion(Regions.US_WEST_2);
     s3.setRegion(usWest2);
