@@ -5,6 +5,8 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import com.eucalyptus.wormhole.model.AwsProperties;
+import com.eucalyptus.wormhole.model.BlackholeProperties;
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -116,20 +118,20 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
   }
 
   @Bean
-  public Properties awsProperties() {
-    Properties properties = new Properties();
-    properties.put(PROPERTY_NAME_AWS_REGION, env.getRequiredProperty(PROPERTY_NAME_AWS_REGION));
-    properties.put(PROPERTY_NAME_AWS_PROXY_TYPE, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE));
-    properties.put(PROPERTY_NAME_AWS_PROXY_PROTOCOL, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL));
-    properties.put(PROPERTY_NAME_AWS_PROXY_HOST, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
-    properties.put(PROPERTY_NAME_AWS_PROXY_PORT, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT));
+  public AwsProperties awsProperties() {
+    AwsProperties properties = new AwsProperties();
+    properties.setAwsRegion(env.getRequiredProperty(PROPERTY_NAME_AWS_REGION));
+    properties.setAwsProxyType(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE));
+    properties.setAwsProxyProtocol(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL));
+    properties.setAwsProxyHost(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
+    properties.setAwsProxyPort(Integer.getInteger(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
     return properties;
   }
 
   @Bean
-  public Properties blackholeProperties() {
-    Properties properties = new Properties();
-    properties.put(PROPERTY_NAME_BLACKHOLE_PREFIX, env.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX));
+  public BlackholeProperties blackholeProperties() {
+    BlackholeProperties properties = new BlackholeProperties();
+    properties.setBucketPrefix(env.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX));
     return properties;
   }
 
