@@ -5,6 +5,8 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import com.eucalyptus.wormhole.model.AwsProperties;
+import com.eucalyptus.wormhole.model.BlackholeProperties;
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,6 +41,14 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
 	private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
 	private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
+
+  private static final String PROPERTY_NAME_AWS_REGION = "aws.region";
+  private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.type";
+  private static final String PROPERTY_NAME_AWS_PROXY_PROTOCOL = "aws.proxy.protocol";
+  private static final String PROPERTY_NAME_AWS_PROXY_HOST = "aws.proxy.host";
+  private static final String PROPERTY_NAME_AWS_PROXY_PORT = "aws.proxy.port";
+
+  private static final String PROPERTY_NAME_BLACKHOLE_PREFIX = "blackhole.prefix";
 
 	@Resource
 	private Environment env;
@@ -105,6 +115,24 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
     handlerMapping.setUseSuffixPatternMatch(false);
 //    handlerMapping.setUseTrailingSlashMatch(false);
     return handlerMapping;
+  }
+
+  @Bean
+  public AwsProperties awsProperties() {
+    AwsProperties properties = new AwsProperties();
+    properties.setRegion(env.getRequiredProperty(PROPERTY_NAME_AWS_REGION));
+    properties.setProxyType(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE));
+    properties.setProxyProtocol(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL));
+    properties.setProxyHost(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
+    properties.setProxyPort(Integer.getInteger(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
+    return properties;
+  }
+
+  @Bean
+  public BlackholeProperties blackholeProperties() {
+    BlackholeProperties properties = new BlackholeProperties();
+    properties.setPrefix(env.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX));
+    return properties;
   }
 
 }
