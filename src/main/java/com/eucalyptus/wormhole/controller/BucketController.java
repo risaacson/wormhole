@@ -13,11 +13,9 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.eucalyptus.wormhole.init.WebAppConfig;
-import com.eucalyptus.wormhole.model.AwsProperties;
-import com.eucalyptus.wormhole.model.BlackholeProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +46,7 @@ public class BucketController {
 
   @PostConstruct
   public void init() {
-    ApplicationContext context = new AnnotationConfigApplicationContext();
+    ApplicationContext context = new GenericApplicationContext();
     Environment environment = context.getEnvironment();
     ClientConfiguration clientConfiguration = new ClientConfiguration();
     String proxyProtocol = environment.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL).toLowerCase();
