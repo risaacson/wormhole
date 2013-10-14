@@ -40,6 +40,14 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
 	private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
 
+  private static final String PROPERTY_NAME_AWS_REGION = "aws.region";
+  private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.region";
+  private static final String PROPERTY_NAME_AWS_PROXY_PROTOCOL = "aws.proxy.protocol";
+  private static final String PROPERTY_NAME_AWS_PROXY_HOST = "aws.proxy.host";
+  private static final String PROPERTY_NAME_AWS_PROXY_PORT = "aws.proxy.port";
+
+  private static final String PROPERTY_NAME_BLACKHOLE_PREFIX = "blackhole.prefix";
+
 	@Resource
 	private Environment env;
 
@@ -49,9 +57,7 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
 
 		dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
 		dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-//    System.out.println(dataSource.getUrl());
 		dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
-//    System.out.println(dataSource.getUsername());
 		dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
 
 		return dataSource;
@@ -107,6 +113,24 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
     handlerMapping.setUseSuffixPatternMatch(false);
 //    handlerMapping.setUseTrailingSlashMatch(false);
     return handlerMapping;
+  }
+
+  @Bean
+  public Properties awsProperties() {
+    Properties properties = new Properties();
+    properties.put(PROPERTY_NAME_AWS_REGION, env.getRequiredProperty(PROPERTY_NAME_AWS_REGION));
+    properties.put(PROPERTY_NAME_AWS_PROXY_TYPE, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE));
+    properties.put(PROPERTY_NAME_AWS_PROXY_PROTOCOL, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL));
+    properties.put(PROPERTY_NAME_AWS_PROXY_HOST, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
+    properties.put(PROPERTY_NAME_AWS_PROXY_PORT, env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT));
+    return properties;
+  }
+
+  @Bean
+  public Properties blackholeProperties() {
+    Properties properties = new Properties();
+    properties.put(PROPERTY_NAME_BLACKHOLE_PREFIX, env.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX));
+    return properties;
   }
 
 }

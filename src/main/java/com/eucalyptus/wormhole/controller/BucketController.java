@@ -13,6 +13,9 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.eucalyptus.wormhole.init.WebAppConfig;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  */
@@ -34,23 +32,55 @@ import java.util.TreeMap;
 @RequestMapping("/bucket")
 public class BucketController {
 
+  private static final String PROPERTY_NAME_AWS_REGION = "aws.region";
+  private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.region";
+  private static final String PROPERTY_NAME_AWS_PROXY_PROTOCOL = "aws.proxy.protocol";
+  private static final String PROPERTY_NAME_AWS_PROXY_HOST = "aws.proxy.host";
+  private static final String PROPERTY_NAME_AWS_PROXY_PORT = "aws.proxy.port";
+
+  private static final String PROPERTY_NAME_BLACKHOLE_PREFIX = "blackhole.prefix";
+
   private AmazonS3 s3;
   private String bucketPrefix;
 
   @PostConstruct
   public void init() {
+    ApplicationContext context = new AnnotationConfigApplicationContext(WebAppConfig.class);
+    Properties awsProperties = (Properties) context.getBean("awsProperties");
+    Properties blackholeProperties = (Properties) context.getBean("blackholeProperties");
     ClientConfiguration clientConfiguration = new ClientConfiguration();
-    //TODO Of course this should be pulled from the config file.
-    clientConfiguration.setProtocol(Protocol.HTTP);
-    clientConfiguration.setProxyHost("10.23.0.170");
-    clientConfiguration.setProxyPort(8080);
+    String proxyProtocol = awsProperties.getProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL).toLowerCase();
     s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider(), clientConfiguration);
-    //TODO pull out the region and put into a config file.
-    Region usWest2 = Region.getRegion(Regions.US_WEST_2);
-    s3.setRegion(usWest2);
+    String awsType = awsProperties.getProperty(PROPERTY_NAME_AWS_PROXY_TYPE).toLowerCase();
+    Region region;
+    switch (awsType) {
+      case "none":
+        region = Region.getRegion(Regions.fromName(awsProperties.getProperty(PROPERTY_NAME_AWS_REGION)));
+        s3.setRegion(region);
+        break;
+      case "aws":
+        region = Region.getRegion(Regions.fromName(awsProperties.getProperty(PROPERTY_NAME_AWS_REGION)));
+        s3.setRegion(region);
+        if (proxyProtocol.equals("http")) {
+          clientConfiguration.setProtocol(Protocol.HTTP);
+        } else if (proxyProtocol.equals("https")) {
+          clientConfiguration.setProtocol(Protocol.HTTPS);
+        }
+        clientConfiguration.setProxyHost(awsProperties.getProperty(PROPERTY_NAME_AWS_PROXY_HOST));
+        clientConfiguration.setProxyPort(Integer.getInteger(awsProperties.getProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
+        break;
+      case "riakcs":
+        if (proxyProtocol.equals("http")) {
+          clientConfiguration.setProtocol(Protocol.HTTP);
+        } else if (proxyProtocol.equals("https")) {
+          clientConfiguration.setProtocol(Protocol.HTTPS);
+        }
+        clientConfiguration.setProxyHost(awsProperties.getProperty(PROPERTY_NAME_AWS_PROXY_HOST));
+        clientConfiguration.setProxyPort(Integer.getInteger(awsProperties.getProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
+        break;
+    }
 
-    //TODO pull out the prefix and put into a config file.
-    bucketPrefix = "blackhole-dev";
+    bucketPrefix = blackholeProperties.getProperty(PROPERTY_NAME_BLACKHOLE_PREFIX);
   }
 
   @RequestMapping(value="/list", method= RequestMethod.GET)
