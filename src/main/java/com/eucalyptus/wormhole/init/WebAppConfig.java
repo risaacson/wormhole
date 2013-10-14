@@ -117,22 +117,4 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
     return handlerMapping;
   }
 
-  @Bean
-  public AwsProperties awsProperties() {
-    AwsProperties properties = new AwsProperties();
-    properties.setAwsRegion(env.getRequiredProperty(PROPERTY_NAME_AWS_REGION));
-    properties.setAwsProxyType(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE));
-    properties.setAwsProxyProtocol(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL));
-    properties.setAwsProxyHost(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
-    properties.setAwsProxyPort(Integer.getInteger(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
-    return properties;
-  }
-
-  @Bean
-  public BlackholeProperties blackholeProperties() {
-    BlackholeProperties properties = new BlackholeProperties();
-    properties.setBucketPrefix(env.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX));
-    return properties;
-  }
-
 }

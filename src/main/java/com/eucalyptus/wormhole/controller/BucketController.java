@@ -18,6 +18,7 @@ import com.eucalyptus.wormhole.model.AwsProperties;
 import com.eucalyptus.wormhole.model.BlackholeProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,28 +49,27 @@ public class BucketController {
   @PostConstruct
   public void init() {
     ApplicationContext context = new AnnotationConfigApplicationContext();
-    AwsProperties awsProperties = (AwsProperties) context.getBean("awsProperties");
-    BlackholeProperties blackholeProperties = (BlackholeProperties) context.getBean("blackholeProperties");
+    Environment environment = context.getEnvironment();
     ClientConfiguration clientConfiguration = new ClientConfiguration();
-    String proxyProtocol = awsProperties.getAwsProxyProtocol().toLowerCase();
+    String proxyProtocol = environment.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL).toLowerCase();
     s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider(), clientConfiguration);
-    String awsProxyType = awsProperties.getAwsProxyType().toLowerCase();
+    String awsProxyType = environment.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE).toLowerCase();
     Region region;
     switch (awsProxyType) {
       case "none":
-        region = Region.getRegion(Regions.fromName(awsProperties.getAwsRegion()));
+        region = Region.getRegion(Regions.fromName(environment.getRequiredProperty(PROPERTY_NAME_AWS_REGION)));
         s3.setRegion(region);
         break;
       case "aws":
-        region = Region.getRegion(Regions.fromName(awsProperties.getAwsRegion()));
+        region = Region.getRegion(Regions.fromName(environment.getRequiredProperty(PROPERTY_NAME_AWS_REGION)));
         s3.setRegion(region);
         if (proxyProtocol.equals("http")) {
           clientConfiguration.setProtocol(Protocol.HTTP);
         } else if (proxyProtocol.equals("https")) {
           clientConfiguration.setProtocol(Protocol.HTTPS);
         }
-        clientConfiguration.setProxyHost(awsProperties.getAwsProxyHost());
-        clientConfiguration.setProxyPort(awsProperties.getAwsProxyPort());
+        clientConfiguration.setProxyHost(environment.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
+        clientConfiguration.setProxyPort(Integer.getInteger(environment.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
         break;
       case "riakcs":
         if (proxyProtocol.equals("http")) {
@@ -77,12 +77,12 @@ public class BucketController {
         } else if (proxyProtocol.equals("https")) {
           clientConfiguration.setProtocol(Protocol.HTTPS);
         }
-        clientConfiguration.setProxyHost(awsProperties.getAwsProxyHost());
-        clientConfiguration.setProxyPort(awsProperties.getAwsProxyPort());
+        clientConfiguration.setProxyHost(environment.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
+        clientConfiguration.setProxyPort(Integer.getInteger(environment.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
         break;
     }
 
-    bucketPrefix = blackholeProperties.getBucketPrefix();
+    bucketPrefix = environment.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX);
   }
 
   @RequestMapping(value="/list", method= RequestMethod.GET)
