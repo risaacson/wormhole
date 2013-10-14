@@ -41,7 +41,7 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
 	private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
 
   private static final String PROPERTY_NAME_AWS_REGION = "aws.region";
-  private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.region";
+  private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.type";
   private static final String PROPERTY_NAME_AWS_PROXY_PROTOCOL = "aws.proxy.protocol";
   private static final String PROPERTY_NAME_AWS_PROXY_HOST = "aws.proxy.host";
   private static final String PROPERTY_NAME_AWS_PROXY_PORT = "aws.proxy.port";

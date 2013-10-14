@@ -33,7 +33,7 @@ import java.util.*;
 public class BucketController {
 
   private static final String PROPERTY_NAME_AWS_REGION = "aws.region";
-  private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.region";
+  private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.type";
   private static final String PROPERTY_NAME_AWS_PROXY_PROTOCOL = "aws.proxy.protocol";
   private static final String PROPERTY_NAME_AWS_PROXY_HOST = "aws.proxy.host";
   private static final String PROPERTY_NAME_AWS_PROXY_PORT = "aws.proxy.port";
@@ -45,7 +45,7 @@ public class BucketController {
 
   @PostConstruct
   public void init() {
-    ApplicationContext context = new AnnotationConfigApplicationContext(WebAppConfig.class);
+    ApplicationContext context = new AnnotationConfigApplicationContext();
     Properties awsProperties = (Properties) context.getBean("awsProperties");
     Properties blackholeProperties = (Properties) context.getBean("blackholeProperties");
     ClientConfiguration clientConfiguration = new ClientConfiguration();
