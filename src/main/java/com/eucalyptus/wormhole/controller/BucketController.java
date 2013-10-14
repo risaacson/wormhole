@@ -40,13 +40,14 @@ public class BucketController {
   private AmazonS3 s3;
   private String bucketPrefix;
 
-  private @Autowired
-  BeanFactory beanFactory;
+  @Autowired
+  private AwsProperties awsProperties;
+
+  @Autowired
+  private BlackholeProperties blackholeProperties;
 
   @PostConstruct
   public void init() {
-    AwsProperties awsProperties = (AwsProperties) beanFactory.getBean("awsProperties");
-    BlackholeProperties blackholeProperties = (BlackholeProperties) beanFactory.getBean("blackholeProperties");
     ApplicationContext context = new GenericApplicationContext();
     Environment environment = context.getEnvironment();
     ClientConfiguration clientConfiguration = new ClientConfiguration();
