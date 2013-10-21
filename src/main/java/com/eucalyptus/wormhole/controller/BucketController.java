@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
@@ -48,8 +49,9 @@ public class BucketController {
 
   @PostConstruct
   public void init() {
-    ApplicationContext context = new GenericApplicationContext();
-    Environment environment = context.getEnvironment();
+    ApplicationContext context = new GenericWebApplicationContext();
+    awsProperties = context.getBean("awsProperties", AwsProperties.class);
+    blackholeProperties = context.getBean("blackholeProperties", BlackholeProperties.class);
     ClientConfiguration clientConfiguration = new ClientConfiguration();
     String proxyProtocol = awsProperties.getProxyProtocol().toLowerCase();
     s3 = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider(), clientConfiguration);
