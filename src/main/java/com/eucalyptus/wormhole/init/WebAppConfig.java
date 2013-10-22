@@ -8,6 +8,8 @@ import javax.sql.DataSource;
 import com.eucalyptus.wormhole.model.AwsProperties;
 import com.eucalyptus.wormhole.model.BlackholeProperties;
 import org.hibernate.ejb.HibernatePersistence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -33,14 +35,16 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @EnableJpaRepositories("com.eucalyptus.wormhole.repository")
 public class WebAppConfig extends WebMvcConfigurationSupport {
 
-	private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
-	private static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
-	private static final String PROPERTY_NAME_DATABASE_URL = "db.url";
-	private static final String PROPERTY_NAME_DATABASE_USERNAME = "db.username";
+  final Logger logger = LoggerFactory.getLogger(WebAppConfig.class);
 
-	private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
-	private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
-	private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
+  private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
+  private static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
+  private static final String PROPERTY_NAME_DATABASE_URL = "db.url";
+  private static final String PROPERTY_NAME_DATABASE_USERNAME = "db.username";
+
+  private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
+  private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
+  private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
 
   private static final String PROPERTY_NAME_AWS_REGION = "aws.region";
   private static final String PROPERTY_NAME_AWS_PROXY_TYPE = "aws.proxy.type";
@@ -50,63 +54,59 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
 
   private static final String PROPERTY_NAME_BLACKHOLE_PREFIX = "blackhole.prefix";
 
-	@Resource
-	private Environment env;
+  @Resource
+  private Environment env;
 
-	@Bean
-	public DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+  @Bean
+  public DataSource dataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
+    dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
+    dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
+    dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
+    return dataSource;
+  }
 
-		dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
-		dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-		dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
-		dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
+  @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+    entityManagerFactoryBean.setDataSource(dataSource());
+    entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistence.class);
+    entityManagerFactoryBean.setPackagesToScan(env.getRequiredProperty(PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
+    entityManagerFactoryBean.setJpaProperties(hibProperties());
+    return entityManagerFactoryBean;
+  }
 
-		return dataSource;
-	}
+  private Properties hibProperties() {
+    Properties properties = new Properties();
+    properties.put(PROPERTY_NAME_HIBERNATE_DIALECT,	env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
+    properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
+    return properties;
+  }
 
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		entityManagerFactoryBean.setDataSource(dataSource());
-		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistence.class);
-		entityManagerFactoryBean.setPackagesToScan(env.getRequiredProperty(PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
-		
-		entityManagerFactoryBean.setJpaProperties(hibProperties());
-		
-		return entityManagerFactoryBean;
-	}
+  @Bean
+  public JpaTransactionManager transactionManager() {
+    JpaTransactionManager transactionManager = new JpaTransactionManager();
+    transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+    return transactionManager;
+  }
 
-	private Properties hibProperties() {
-		Properties properties = new Properties();
-		properties.put(PROPERTY_NAME_HIBERNATE_DIALECT,	env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
-		properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
-		return properties;
-	}
-
-	@Bean
-	public JpaTransactionManager transactionManager() {
-		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-		return transactionManager;
-	}
-
-	@Bean
-	public UrlBasedViewResolver setupViewResolver() {
-		UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-		resolver.setPrefix("/WEB-INF/pages/");
-		resolver.setSuffix(".jsp");
-		resolver.setViewClass(JstlView.class);
-		return resolver;
-	}
+  @Bean
+  public UrlBasedViewResolver setupViewResolver() {
+    UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+    resolver.setPrefix("/WEB-INF/pages/");
+    resolver.setSuffix(".jsp");
+    resolver.setViewClass(JstlView.class);
+    return resolver;
+  }
 	
-	@Bean
-	public ResourceBundleMessageSource messageSource() {
-		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-		source.setBasename(env.getRequiredProperty("message.source.basename"));
-		source.setUseCodeAsDefaultMessage(true);
-		return source;
-	}
+  @Bean
+  public ResourceBundleMessageSource messageSource() {
+    ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+    source.setBasename(env.getRequiredProperty("message.source.basename"));
+    source.setUseCodeAsDefaultMessage(true);
+    return source;
+  }
 
   @Bean
   @Override
@@ -120,17 +120,23 @@ public class WebAppConfig extends WebMvcConfigurationSupport {
   @Bean
   public AwsProperties awsProperties() {
     AwsProperties properties = new AwsProperties();
+    logger.debug( PROPERTY_NAME_AWS_REGION  + " " + env.getRequiredProperty(PROPERTY_NAME_AWS_REGION) );
     properties.setRegion(env.getRequiredProperty(PROPERTY_NAME_AWS_REGION));
+    logger.debug( PROPERTY_NAME_AWS_PROXY_TYPE  + " " + env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE) );
     properties.setProxyType(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_TYPE));
+    logger.debug( PROPERTY_NAME_AWS_PROXY_PROTOCOL  + " " + env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL) );
     properties.setProxyProtocol(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PROTOCOL));
+    logger.debug( PROPERTY_NAME_AWS_PROXY_HOST  + " " + env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST) );
     properties.setProxyHost(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_HOST));
-    properties.setProxyPort(Integer.getInteger(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
+    logger.debug( PROPERTY_NAME_AWS_PROXY_PORT  + " " + env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT) );
+    properties.setProxyPort(Integer.parseInt(env.getRequiredProperty(PROPERTY_NAME_AWS_PROXY_PORT)));
     return properties;
   }
 
   @Bean
   public BlackholeProperties blackholeProperties() {
     BlackholeProperties properties = new BlackholeProperties();
+    logger.debug( PROPERTY_NAME_BLACKHOLE_PREFIX  + " " + env.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX) );
     properties.setPrefix(env.getRequiredProperty(PROPERTY_NAME_BLACKHOLE_PREFIX));
     return properties;
   }

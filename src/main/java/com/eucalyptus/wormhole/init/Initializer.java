@@ -4,6 +4,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -13,6 +15,8 @@ import org.springframework.web.servlet.DispatcherServlet;
  *
  */
 public class Initializer implements WebApplicationInitializer {
+
+  final Logger logger = LoggerFactory.getLogger(Initializer.class);
 
   private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
 

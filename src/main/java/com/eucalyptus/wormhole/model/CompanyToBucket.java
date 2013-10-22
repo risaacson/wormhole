@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "company_to_bucket")
 public class CompanyToBucket {
-
   @Id
   @GeneratedValue
   private Integer id;

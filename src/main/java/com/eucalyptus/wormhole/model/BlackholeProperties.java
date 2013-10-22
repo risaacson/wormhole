@@ -1,5 +1,7 @@
 package com.eucalyptus.wormhole.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  */
 public class BlackholeProperties {

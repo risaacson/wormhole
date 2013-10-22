@@ -5,6 +5,8 @@ import com.eucalyptus.wormhole.model.CompanyToBucket;
 import com.eucalyptus.wormhole.service.CompanyToBucketService;
 import com.eucalyptus.wormhole.validation.CompanyToBucketValidator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,6 +23,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/companyToBucket")
 public class CompanyToBucketController {
+
+  final Logger logger = LoggerFactory.getLogger(CompanyToBucketController.class);
 
   @Autowired
   private CompanyToBucketService companyToBucketService;
