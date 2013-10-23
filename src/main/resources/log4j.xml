@@ -12,7 +12,8 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.eucalyptus.wormhole">
-		<level value="info" />
+        <!--<level value="info" />-->
+        <level value="debug" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->
@@ -30,7 +31,8 @@
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="info" />
+        <!--<level value="info" />-->
+        <level value="debug" />
 	</logger>
 
 	<!-- Root Logger -->

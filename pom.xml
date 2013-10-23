@@ -218,8 +218,7 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>2.4</version>
         <configuration>
-          <!--<attachClasses>true</attachClasses>-->
-          <!--<webXml>src\main\webapp\WEB-INF\web.xml</webXml>-->
+          <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
     </plugins>
