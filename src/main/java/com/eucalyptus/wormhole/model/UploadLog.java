@@ -1,9 +1,6 @@
 package com.eucalyptus.wormhole.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -15,10 +12,19 @@ public class UploadLog {
   @GeneratedValue
   private Integer id;
 
+  @Column(name = "tracker_id", nullable = false)
   private String trackerId;
+
+  @Column(name = "date_time", nullable = false)
   private String dateTime;
+
+  @Column(name = "bucket", nullable = false)
   private String bucket;
+
+  @Column(name = "file_name", nullable = false)
   private String fileName;
+
+  @Column(name = "email", nullable = false)
   private String eMail;
 
     public Integer getId() {
