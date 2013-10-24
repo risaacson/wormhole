@@ -2,10 +2,7 @@ package com.eucalyptus.wormhole.model;
 
 /**
  */
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "email_to_bucket")
@@ -18,6 +15,9 @@ public class EmailToBucket {
   private String email;
 
   private String bucket;
+
+  @Version
+  private long version = 0;
 
   public Integer getId() {
     return id;

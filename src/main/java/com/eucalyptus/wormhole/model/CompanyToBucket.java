@@ -1,9 +1,6 @@
 package com.eucalyptus.wormhole.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -18,6 +15,9 @@ public class CompanyToBucket {
   private String company;
 
   private String bucket;
+
+  @Version
+  private long version = 0;
 
   public Integer getId() {
     return id;

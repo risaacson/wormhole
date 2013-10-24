@@ -27,51 +27,54 @@ public class UploadLog {
   @Column(name = "email", nullable = false)
   private String eMail;
 
-    public Integer getId() {
-        return id;
-    }
+  @Version
+  private long version = 0;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getTrackerId() {
-        return trackerId;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setTrackerId(String trackerId) {
-        this.trackerId = trackerId;
-    }
+  public String getTrackerId() {
+    return trackerId;
+  }
 
-    public String getDateTime() {
-        return dateTime;
-    }
+  public void setTrackerId(String trackerId) {
+    this.trackerId = trackerId;
+  }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
+  public String getDateTime() {
+    return dateTime;
+  }
 
-    public String getBucket() {
-        return bucket;
-    }
+  public void setDateTime(String dateTime) {
+    this.dateTime = dateTime;
+  }
 
-    public void setBucket(String bucket) {
-        this.bucket = bucket;
-    }
+  public String getBucket() {
+    return bucket;
+  }
 
-    public String getFileName() {
-        return fileName;
-    }
+  public void setBucket(String bucket) {
+    this.bucket = bucket;
+  }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+  public String getFileName() {
+    return fileName;
+  }
 
-    public String getEMail() {
-        return eMail;
-    }
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
 
-    public void setEMail(String eMail) {
-        this.eMail = eMail;
-    }
+  public String getEMail() {
+    return eMail;
+  }
+
+  public void setEMail(String eMail) {
+    this.eMail = eMail;
+  }
 }
