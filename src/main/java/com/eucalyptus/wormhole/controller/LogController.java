@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +34,24 @@ public class LogController {
     binder.setValidator(uploadLogValidator);
   }
 
-  @RequestMapping(value = "/upload", method = RequestMethod.PUT)
+  @RequestMapping(value = "/upload", method = RequestMethod.GET)
+  public String updateLogForm(Model model) {
+      UploadLog uploadLog = new UploadLog();
+      model.addAttribute("uploadLog", uploadLog);
+      return "uploadLogForm";
+  }
+
+  @RequestMapping(value = "/upload", method = RequestMethod.POST)
   public ModelAndView addUpdateLog(@ModelAttribute @Valid UploadLog uploadLog, BindingResult result) {
-    ModelAndView modelAndView = new ModelAndView();
+//  public ModelAndView addUpdateLog(@ModelAttribute UploadLog uploadLog) {
 
-    if(result.hasErrors()) return new ModelAndView("blank");
-
-    uploadLogService.create(uploadLog);
-
-     modelAndView.setViewName("blank");
-
-    return modelAndView;
+    String message;
+    if(result.hasErrors()) {
+      message = result.toString();
+    } else {
+      uploadLogService.create(uploadLog);
+      message = "success";
+    }
+    return new ModelAndView("message", "message", message);
   }
 }

@@ -18,10 +18,10 @@ public class UploadLogValidator implements Validator {
 
   @Override
   public void validate(Object target, Errors errors) {
-    UploadLog companytoBucket = (UploadLog) target;
+    UploadLog uploadLog = (UploadLog) target;
       ValidationUtils.rejectIfEmpty(errors, "trackerId", "uploadLog.trackerId.empty");
       ValidationUtils.rejectIfEmpty(errors, "dateTime", "uploadLog.dateTime.empty");
-      ValidationUtils.rejectIfEmpty(errors, "eMail", "uploadLog.eMail.empty");
+      ValidationUtils.rejectIfEmpty(errors, "email", "uploadLog.email.empty");
       ValidationUtils.rejectIfEmpty(errors, "bucket", "uploadLog.bucket.empty");
       ValidationUtils.rejectIfEmpty(errors, "fileName", "uploadLog.fileName.empty");
   }

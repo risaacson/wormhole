@@ -16,9 +16,6 @@ public class EmailToBucket {
 
   private String bucket;
 
-  @Version
-  private long version = 0;
-
   public Integer getId() {
     return id;
   }

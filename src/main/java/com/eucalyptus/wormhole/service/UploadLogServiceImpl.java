@@ -46,7 +46,7 @@ public class UploadLogServiceImpl implements UploadLogService {
         anUploadLog.setDateTime(uploadLog.getDateTime());
         anUploadLog.setBucket(uploadLog.getBucket());
         anUploadLog.setFileName(uploadLog.getFileName());
-        anUploadLog.setEMail(uploadLog.getEMail());
+        anUploadLog.setEmail(uploadLog.getEmail());
 
         return anUploadLog;
     }
@@ -54,5 +54,10 @@ public class UploadLogServiceImpl implements UploadLogService {
     @Override
     public UploadLog findById(int id) {
         return uploadLogRepository.findOne(id);
+    }
+
+    @Override
+    public List<UploadLog> findRecentTwenty() {
+      return uploadLogRepository.findRecentTwenty();
     }
 }

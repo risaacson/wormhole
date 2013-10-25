@@ -25,10 +25,7 @@ public class UploadLog {
   private String fileName;
 
   @Column(name = "email", nullable = false)
-  private String eMail;
-
-  @Version
-  private long version = 0;
+  private String email;
 
   public Integer getId() {
     return id;
@@ -70,11 +67,11 @@ public class UploadLog {
     this.fileName = fileName;
   }
 
-  public String getEMail() {
-    return eMail;
+  public String getEmail() {
+    return email;
   }
 
-  public void setEMail(String eMail) {
-    this.eMail = eMail;
+  public void setEmail(String email) {
+    this.email = email;
   }
 }
