@@ -34,7 +34,9 @@ public class WebAppMappingConfig extends WebMvcConfigurationSupport {
 //    PathExtensionContentNegotiationStrategy strategy = new PathExtensionContentNegotiationStrategy(fileExtensions);
 //    ContentNegotiationManager contentNegotiationManager = new ContentNegotiationManager(strategy);
 //    handlerMapping.setContentNegotiationManager(contentNegotiationManager);
-    handlerMapping.setUseRegisteredSuffixPatternMatch(true);
+//    handlerMapping.setUseRegisteredSuffixPatternMatch(true);
+    handlerMapping.setUseSuffixPatternMatch(false);
+
     return handlerMapping;
   }
 }
