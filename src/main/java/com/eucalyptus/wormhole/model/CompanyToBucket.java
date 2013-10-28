@@ -2,10 +2,7 @@ package com.eucalyptus.wormhole.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -18,9 +15,11 @@ public class CompanyToBucket {
   private Integer id;
 
   @NotEmpty
+  @Column(name = "company", nullable = false)
   private String company;
 
   @NotEmpty
+  @Column(name = "bucket", nullable = false)
   private String bucket;
 
   public Integer getId() {

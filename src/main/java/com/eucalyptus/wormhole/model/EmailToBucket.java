@@ -1,16 +1,12 @@
 package com.eucalyptus.wormhole.model;
 
-/**
- */
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+/**
+ */
 @Entity
 @Table(name = "email_to_bucket")
 public class EmailToBucket {
@@ -20,9 +16,11 @@ public class EmailToBucket {
   private Integer id;
 
   @NotEmpty @Email
+  @Column(name = "email", nullable = false)
   private String email;
 
   @NotEmpty
+  @Column(name = "bucket", nullable = false)
   private String bucket;
 
   public Integer getId() {

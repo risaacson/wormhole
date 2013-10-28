@@ -22,8 +22,6 @@
       <div>
         <p>
           <i>${message}</i><br/>
-          <a href="${pageContext.request.contextPath}/admin/">Administration</a><br/>
-          <a href="${pageContext.request.contextPath}/bucket/list">Buckets</a><br/>
         </p>
         <form:form method="POST" commandName="company-to-bucket" action="${pageContext.request.contextPath}/admin/companyToBucket/${action}" >
           <table style="text-align: center;" border="1px" cellpadding="0" cellspacing="0" >

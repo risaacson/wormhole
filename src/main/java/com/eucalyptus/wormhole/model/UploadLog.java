@@ -19,7 +19,9 @@ public class UploadLog {
   @Column(name = "tracker_id", nullable = false)
   private String trackerId;
 
-  @NotEmpty
+//TODO Modify this so that it is stored as a DateTime
+//  @DateTimeFormat(pattern = "yyyyMMddhhmmss")
+  @NotEmpty //@NotNull @Past
   @Column(name = "date_time", nullable = false)
   private String dateTime;
 

@@ -42,6 +42,6 @@ public class LogController {
       message = "success";
     }
     modelMap.addAttribute("message", message);
-    return message;
+    return "message";
   }
 }
