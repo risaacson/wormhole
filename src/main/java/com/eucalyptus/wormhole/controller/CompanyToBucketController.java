@@ -4,7 +4,6 @@ import com.eucalyptus.wormhole.exception.CompanyToBucketNotFound;
 import com.eucalyptus.wormhole.model.CompanyToBucket;
 import com.eucalyptus.wormhole.service.CompanyToBucketService;
 import com.eucalyptus.wormhole.validation.CompanyToBucketValidator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,35 +28,39 @@ public class CompanyToBucketController {
   private CompanyToBucketService companyToBucketService;
 
   @Autowired
-  private CompanyToBucketValidator companyTobucketValidator;
+  private CompanyToBucketValidator companyToBucketValidator;
 
   @InitBinder
   private void initBinder(WebDataBinder binder) {
-    binder.setValidator(companyTobucketValidator);
+    binder.setValidator(companyToBucketValidator);
   }
 
   @RequestMapping(value="/create", method= RequestMethod.GET)
   public ModelAndView newCompanyToBucketPage() {
-    return new ModelAndView("company-to-bucket-new", "company-to-bucket", new CompanyToBucket());
+    ModelAndView modelAndView = new ModelAndView("company-to-bucket-edit");
+    modelAndView.addObject("company-to-bucket", new CompanyToBucket());
+    modelAndView.addObject("action", "create");
+    return modelAndView;
   }
 
   @RequestMapping(value="/create", method= RequestMethod.POST)
-  public ModelAndView createNewCompanyToBucket(@ModelAttribute @Valid CompanyToBucket companyToBucket, BindingResult result, final RedirectAttributes redirectAttributes) {
+  public ModelAndView createNewCompanyToBucket(@ModelAttribute @Valid CompanyToBucket companyToBucket, BindingResult result) {
 
-    if(result.hasErrors()) return new ModelAndView("company-to-bucket-new");
+    if(result.hasErrors()) return newCompanyToBucketPage();
 
-    ModelAndView modelAndView = new ModelAndView();
     String message = "New e-mail to bucket relation " + companyToBucket.getCompany() + " <=> " + companyToBucket.getBucket() + " was successfully created.";
 
     companyToBucketService.create(companyToBucket);
-    modelAndView.setViewName("index");
 
-    redirectAttributes.addFlashAttribute("message", message);
+    ModelAndView modelAndView = new ModelAndView("company-to-bucket-list");
+    List<CompanyToBucket> companyToBucketList = companyToBucketService.findAll();
+    modelAndView.addObject("companyToBucketList", companyToBucketList);
+    modelAndView.addObject("message", message);
+
     return modelAndView;
-
   }
 
-  @RequestMapping(value="/list", method= RequestMethod.GET)
+  @RequestMapping(value="", method= RequestMethod.GET)
   public ModelAndView companyToBucketListPage() {
 
     ModelAndView modelAndView = new ModelAndView("company-to-bucket-list");
@@ -67,47 +69,48 @@ public class CompanyToBucketController {
     modelAndView.addObject("companyToBucketList", companyToBucketList);
 
     return modelAndView;
-
   }
 
   @RequestMapping(value="/edit/{id}", method= RequestMethod.GET)
   public ModelAndView editCompanyToBucketPage(@PathVariable Integer id) {
 
     ModelAndView modelAndView = new ModelAndView("company-to-bucket-edit");
-
     CompanyToBucket companyToBucket = companyToBucketService.findById(id);
     modelAndView.addObject("company-to-bucket", companyToBucket);
+    modelAndView.addObject("action", "edit/" + companyToBucket.getId());
 
     return modelAndView;
-
   }
 
   @RequestMapping(value="/edit/{id}", method= RequestMethod.POST)
-  public ModelAndView editCompanyToBucket(@ModelAttribute @Valid CompanyToBucket companyToBucket, BindingResult result, @PathVariable Integer id, final RedirectAttributes redirectAttributes) throws CompanyToBucketNotFound {
+  public ModelAndView editCompanyToBucket(@ModelAttribute @Valid CompanyToBucket companyToBucket, BindingResult result, @PathVariable Integer id) throws CompanyToBucketNotFound {
 
     if(result.hasErrors()) return new ModelAndView("company-to-bucket-edit");
 
-    ModelAndView modelAndView = new ModelAndView("index");
     String message = "E-mail to bucket relation " + companyToBucket.getCompany() + " <=> " + companyToBucket.getBucket() + " was successfully updated.";
 
     companyToBucketService.update(companyToBucket);
 
-    redirectAttributes.addFlashAttribute("message", message);
-    return modelAndView;
+    ModelAndView modelAndView = new ModelAndView("company-to-bucket-list");
+    List<CompanyToBucket> companyToBucketList = companyToBucketService.findAll();
+    modelAndView.addObject("companyToBucketList", companyToBucketList);
+    modelAndView.addObject("message", message);
 
+    return modelAndView;
   }
 
   @RequestMapping(value="/delete/{id}", method= RequestMethod.GET)
-  public ModelAndView deleteCompanyToBucket(@PathVariable Integer id, final RedirectAttributes redirectAttributes) throws CompanyToBucketNotFound {
-
-    ModelAndView modelAndView = new ModelAndView("index");
+  public ModelAndView deleteCompanyToBucket(@PathVariable Integer id) throws CompanyToBucketNotFound {
 
     CompanyToBucket companyToBucket = companyToBucketService.delete(id);
+
     String message = "The e-mail to bucket relation " + companyToBucket.getCompany() + " <=> " + companyToBucket.getBucket() + " was successfully deleted.";
 
-    redirectAttributes.addFlashAttribute("message", message);
+    ModelAndView modelAndView = new ModelAndView("company-to-bucket-list");
+    List<CompanyToBucket> companyToBucketList = companyToBucketService.findAll();
+    modelAndView.addObject("companyToBucketList", companyToBucketList);
+    modelAndView.addObject("message", message);
+
     return modelAndView;
-
   }
-
 }
