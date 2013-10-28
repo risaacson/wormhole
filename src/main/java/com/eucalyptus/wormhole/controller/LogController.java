@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -35,16 +38,17 @@ public class LogController {
   }
 
   @RequestMapping(value = "/upload", method = RequestMethod.GET)
-  public String updateLogForm(Model model) {
-      UploadLog uploadLog = new UploadLog();
-      model.addAttribute("uploadLog", uploadLog);
-      return "uploadLogForm";
+//  public String updateLogForm(Model model) {
+  public ModelAndView updateLogForm(Model model) {
+    UploadLog uploadLog = new UploadLog();
+    model.addAttribute("uploadLog", uploadLog);
+//    return "uploadLogForm";
+    return new ModelAndView("uploadLogForm", "uploadLog", uploadLog);
   }
 
   @RequestMapping(value = "/upload", method = RequestMethod.POST)
   public ModelAndView addUpdateLog(@ModelAttribute @Valid UploadLog uploadLog, BindingResult result) {
 //  public ModelAndView addUpdateLog(@ModelAttribute UploadLog uploadLog) {
-
     String message;
     if(result.hasErrors()) {
       message = result.toString();

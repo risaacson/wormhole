@@ -18,8 +18,8 @@
 
 	<!-- 3rdparty Loggers -->
     <logger name="org.hibernate">
-        <!--<level value="info" />-->
-        <level value="debug" />
+        <level value="info" />
+        <!--<level value="debug" />-->
     </logger>
 
     <logger name="org.springframework.core">

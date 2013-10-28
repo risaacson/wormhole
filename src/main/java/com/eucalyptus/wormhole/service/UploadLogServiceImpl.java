@@ -3,6 +3,8 @@ package com.eucalyptus.wormhole.service;
 import com.eucalyptus.wormhole.exception.UploadLogNotFound;
 import com.eucalyptus.wormhole.model.UploadLog;
 import com.eucalyptus.wormhole.repository.UploadLogRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,8 +19,9 @@ public class UploadLogServiceImpl implements UploadLogService {
 
     @Override
     public UploadLog create(UploadLog uploadLog) {
-        UploadLog anUploadLog = uploadLog;
-      return uploadLogRepository.save(anUploadLog);
+//      UploadLog anUploadLog = uploadLog;
+//      return uploadLogRepository.save(anUploadLog);
+      return uploadLogRepository.save(uploadLog);
     }
 
     @Override
@@ -58,6 +61,7 @@ public class UploadLogServiceImpl implements UploadLogService {
 
     @Override
     public List<UploadLog> findRecentTwenty() {
-      return uploadLogRepository.findRecentTwenty();
+      Pageable recentTwenty = new PageRequest(0, 20);
+      return uploadLogRepository.findRecentTwenty(recentTwenty);
     }
 }
