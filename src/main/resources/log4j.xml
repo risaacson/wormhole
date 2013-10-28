@@ -17,17 +17,24 @@
 	</logger>
 
 	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework.core">
-        <!--<level value="info" />-->
+    <logger name="org.hibernate">
         <level value="info" />
-	</logger>
+        <!--<level value="debug" />-->
+    </logger>
 
-	<logger name="org.springframework.beans">
-		<level value="info" />
+    <logger name="org.springframework.core">
+        <!--<level value="info" />-->
+        <level value="debug" />
+    </logger>
+
+    <logger name="org.springframework.beans">
+        <!--<level value="info" />-->
+        <level value="debug" />
 	</logger>
 
 	<logger name="org.springframework.context">
-		<level value="info" />
+        <!--<level value="info" />-->
+        <level value="debug" />
 	</logger>
 
 	<logger name="org.springframework.web">

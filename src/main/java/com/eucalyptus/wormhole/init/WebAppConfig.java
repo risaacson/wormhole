@@ -1,16 +1,14 @@
 package com.eucalyptus.wormhole.init;
 
-import java.util.Properties;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
 import com.eucalyptus.wormhole.model.AwsProperties;
 import com.eucalyptus.wormhole.model.BlackholeProperties;
 import org.hibernate.ejb.HibernatePersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,6 +22,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 //@Import({ WebAppMappingConfig.class })
@@ -97,11 +99,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     logger.debug("ENTER: Method");
-    registry.addResourceHandler("/resources/images/**").addResourceLocations("/resources/images/").setCachePeriod(31556926);
-//    registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(31556926);
-//    registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(31556926);
-//    registry.addResourceHandler("/img/**").addResourceLocations("/img/").setCachePeriod(31556926);
-//    registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(31556926);
+    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
   }
 
   @Override

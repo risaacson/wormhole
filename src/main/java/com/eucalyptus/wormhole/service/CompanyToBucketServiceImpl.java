@@ -3,7 +3,6 @@ package com.eucalyptus.wormhole.service;
 import com.eucalyptus.wormhole.exception.CompanyToBucketNotFound;
 import com.eucalyptus.wormhole.model.CompanyToBucket;
 import com.eucalyptus.wormhole.repository.CompanyToBucketRepository;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +18,9 @@ public class CompanyToBucketServiceImpl implements CompanyToBucketService {
   @Override
   @Transactional
   public CompanyToBucket create(CompanyToBucket companyToBucket) {
-    CompanyToBucket anCompanyToBucket = companyToBucket;
-    return companyToBucketRepository.save(anCompanyToBucket);
+//    CompanyToBucket anCompanyToBucket = companyToBucket;
+//    return companyToBucketRepository.save(anCompanyToBucket);
+    return companyToBucketRepository.save(companyToBucket);
   }
 
   @Override

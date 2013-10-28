@@ -4,7 +4,6 @@ import com.eucalyptus.wormhole.exception.EmailToBucketNotFound;
 import com.eucalyptus.wormhole.model.EmailToBucket;
 import com.eucalyptus.wormhole.service.EmailToBucketService;
 import com.eucalyptus.wormhole.validation.EmailToBucketValidator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -39,75 +37,80 @@ public class EmailToBucketController {
 
   @RequestMapping(value="/create", method= RequestMethod.GET)
   public ModelAndView newEmailToBucketPage() {
-    return new ModelAndView("email-to-bucket-new", "email-to-bucket", new EmailToBucket());
+    ModelAndView modelAndView = new ModelAndView("email-to-bucket-edit");
+    modelAndView.addObject("email-to-bucket", new EmailToBucket());
+    modelAndView.addObject("action", "create");
+    return modelAndView;
   }
 
   @RequestMapping(value="/create", method= RequestMethod.POST)
-  public ModelAndView createNewEmailToBucket(@ModelAttribute @Valid EmailToBucket emailToBucket, BindingResult result, final RedirectAttributes redirectAttributes) {
+  public ModelAndView createNewEmailToBucket(@ModelAttribute @Valid EmailToBucket emailToBucket, BindingResult result) {
 
-    if(result.hasErrors()) return new ModelAndView("email-to-bucket-new");
+    if(result.hasErrors()) return newEmailToBucketPage();
 
-    ModelAndView modelAndView = new ModelAndView();
     String message = "New e-mail to bucket relation " + emailToBucket.getEmail() + " <=> " + emailToBucket.getBucket() + " was successfully created.";
 
     emailToBucketService.create(emailToBucket);
-    modelAndView.setViewName("index");
 
-    redirectAttributes.addFlashAttribute("message", message);
+    ModelAndView modelAndView = new ModelAndView("admin");
+    List<EmailToBucket> emailToBucketList = emailToBucketService.findAll();
+    modelAndView.addObject("emailToBucketList", emailToBucketList);
+    modelAndView.addObject("message", message);
+
     return modelAndView;
-
   }
 
-  @RequestMapping(value="/list", method= RequestMethod.GET)
+  @RequestMapping(value="", method= RequestMethod.GET)
   public ModelAndView emailToBucketListPage() {
 
-    ModelAndView modelAndView = new ModelAndView("email-to-bucket-list");
+    ModelAndView modelAndView = new ModelAndView("admin");
 
     List<EmailToBucket> emailToBucketList = emailToBucketService.findAll();
     modelAndView.addObject("emailToBucketList", emailToBucketList);
 
     return modelAndView;
-
   }
 
   @RequestMapping(value="/edit/{id}", method= RequestMethod.GET)
   public ModelAndView editEmailToBucketPage(@PathVariable Integer id) {
 
     ModelAndView modelAndView = new ModelAndView("email-to-bucket-edit");
-
     EmailToBucket emailToBucket = emailToBucketService.findById(id);
-    modelAndView.addObject("emailToBucket", emailToBucket);
+    modelAndView.addObject("email-to-bucket", emailToBucket);
+    modelAndView.addObject("action", "edit/" + emailToBucket.getId());
 
     return modelAndView;
-
   }
 
   @RequestMapping(value="/edit/{id}", method= RequestMethod.POST)
-  public ModelAndView editEmailToBucket(@ModelAttribute @Valid EmailToBucket emailToBucket, BindingResult result, @PathVariable Integer id, final RedirectAttributes redirectAttributes) throws EmailToBucketNotFound {
+  public ModelAndView editEmailToBucket(@ModelAttribute @Valid EmailToBucket emailToBucket, BindingResult result, @PathVariable Integer id) throws EmailToBucketNotFound {
 
     if(result.hasErrors()) return new ModelAndView("email-to-bucket-edit");
 
-    ModelAndView modelAndView = new ModelAndView("index");
     String message = "E-mail to bucket relation " + emailToBucket.getEmail() + " <=> " + emailToBucket.getBucket() + " was successfully updated.";
 
     emailToBucketService.update(emailToBucket);
 
-    redirectAttributes.addFlashAttribute("message", message);
-    return modelAndView;
+    ModelAndView modelAndView = new ModelAndView("admin");
+    List<EmailToBucket> emailToBucketList = emailToBucketService.findAll();
+    modelAndView.addObject("emailToBucketList", emailToBucketList);
+    modelAndView.addObject("message", message);
 
+    return modelAndView;
   }
 
   @RequestMapping(value="/delete/{id}", method= RequestMethod.GET)
-  public ModelAndView deleteEmailToBucket(@PathVariable Integer id, final RedirectAttributes redirectAttributes) throws EmailToBucketNotFound {
-
-    ModelAndView modelAndView = new ModelAndView("index");
+  public ModelAndView deleteEmailToBucket(@PathVariable Integer id) throws EmailToBucketNotFound {
 
     EmailToBucket emailToBucket = emailToBucketService.delete(id);
+
     String message = "The e-mail to bucket relation " + emailToBucket.getEmail() + " <=> " + emailToBucket.getBucket() + " was successfully deleted.";
 
-    redirectAttributes.addFlashAttribute("message", message);
+      ModelAndView modelAndView = new ModelAndView("admin");
+      List<EmailToBucket> emailToBucketList = emailToBucketService.findAll();
+      modelAndView.addObject("emailToBucketList", emailToBucketList);
+      modelAndView.addObject("message", message);
+
     return modelAndView;
-
   }
-
 }

@@ -3,7 +3,6 @@ package com.eucalyptus.wormhole.service;
 import com.eucalyptus.wormhole.exception.EmailToBucketNotFound;
 import com.eucalyptus.wormhole.model.EmailToBucket;
 import com.eucalyptus.wormhole.repository.EmailToBucketRepository;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +18,9 @@ public class EmailToBucketServiceImpl implements EmailToBucketService {
   @Override
   @Transactional
   public EmailToBucket create(EmailToBucket emailToBucket) {
-    EmailToBucket anEmailToBucket = emailToBucket;
-    return emailToBucketRepository.save(anEmailToBucket);
+//    EmailToBucket anEmailToBucket = emailToBucket;
+//    return emailToBucketRepository.save(anEmailToBucket);
+    return emailToBucketRepository.save(emailToBucket);
   }
 
   @Override
