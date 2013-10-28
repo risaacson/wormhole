@@ -1,5 +1,8 @@
 package com.eucalyptus.wormhole.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 
 /**
@@ -12,18 +15,23 @@ public class UploadLog {
   @GeneratedValue
   private Integer id;
 
+  @NotEmpty
   @Column(name = "tracker_id", nullable = false)
   private String trackerId;
 
+  @NotEmpty
   @Column(name = "date_time", nullable = false)
   private String dateTime;
 
+  @NotEmpty
   @Column(name = "bucket", nullable = false)
   private String bucket;
 
+  @NotEmpty
   @Column(name = "file_name", nullable = false)
   private String fileName;
 
+  @NotEmpty @Email
   @Column(name = "email", nullable = false)
   private String email;
 
