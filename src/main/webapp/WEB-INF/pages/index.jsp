@@ -20,7 +20,6 @@
         </div>
       </div>
       <div>
-        <h1>Wormhole</h1>
         <p>
           <i>${message}</i><br/>
           <a href="${pageContext.request.contextPath}/admin/emailToBucket">Administration</a><br/>
