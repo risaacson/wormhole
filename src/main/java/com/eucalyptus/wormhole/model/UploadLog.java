@@ -68,7 +68,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 
 /**
- *
+ * UploadLog Model
+ * This is used to accept data from the blackhole server
+ * and then it is used as a quick link to recent files.
  *
  * @author richard@eucalyptus.com (Richard Isaacson)
  */

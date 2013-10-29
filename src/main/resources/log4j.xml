@@ -12,13 +12,14 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.eucalyptus.wormhole">
-        <!--<level value="info" />-->
-        <level value="debug" />
+        <level value="info" />
+        <!--<level value="debug" />-->
 	</logger>
 
 	<!-- 3rdparty Loggers -->
     <logger name="org.hibernate">
-        <level value="info" />
+        <level value="warn" />
+        <!--<level value="info" />-->
         <!--<level value="debug" />-->
     </logger>
 

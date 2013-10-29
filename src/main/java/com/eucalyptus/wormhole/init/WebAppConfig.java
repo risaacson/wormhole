@@ -95,9 +95,10 @@ import java.util.Properties;
  * @author richard@eucalyptus.com (Richard Isaacson)
  */
 @Configuration
+//@Import({ WebAppMappingConfig.class })
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan("com.eucalyptus.wormhole")
+@ComponentScan(basePackages = {"com.eucalyptus.wormhole"})
 @PropertySource("classpath:wormhole.properties")
 @EnableJpaRepositories("com.eucalyptus.wormhole.repository")
 public class WebAppConfig extends WebMvcConfigurerAdapter {
@@ -164,7 +165,8 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     logger.debug("ENTER: Method");
-    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
+//    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
+    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/**");
   }
 
   @Override

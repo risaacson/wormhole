@@ -33,7 +33,7 @@
             <c:forEach var="object" items="${objectList}">
               <tr>
                 <td>
-                  <a href="${pageContext.request.contextPath}/bucket/redirect/${bucket}/${object.key}">${object.key}</a>
+                  <a href="${pageContext.request.contextPath}/bucket/redirect/${bucket}/${object.key}/">${object.key}</a>
                 </td>
               </tr>
             </c:forEach>

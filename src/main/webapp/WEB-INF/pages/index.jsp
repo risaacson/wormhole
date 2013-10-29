@@ -47,7 +47,7 @@
                   ${uploadLog.bucket}
                 </td>
                 <td>
-                  <a href="${pageContext.request.contextPath}/bucket/redirect/${uploadLog.bucket}/${uploadLog.fileName}">${uploadLog.fileName}</a>
+                  <a href="${pageContext.request.contextPath}/bucket/redirect/${uploadLog.bucket}/${uploadLog.fileName}/">${uploadLog.fileName}</a>
                 </td>
               </tr>
             </c:forEach>
