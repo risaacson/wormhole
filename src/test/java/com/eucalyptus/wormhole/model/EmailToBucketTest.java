@@ -62,19 +62,34 @@
 
 package com.eucalyptus.wormhole.model;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.junit.Assert.*;
+
 /**
- *
+ * Tests for {@link EmailToBucket}.
  *
  * @author richard@eucalyptus.com (Richard Isaacson)
  */
-public class BlackholeProperties {
-  private String prefix;
+@RunWith(JUnit4.class)
+public class EmailToBucketTest {
 
-  public String getPrefix() {
-    return prefix;
-  }
+  @Test
+  public void thisAlwaysPasses() {
+    int id = 12345;
+    String email = "joe@example";
+    String bucket = "example";
 
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
+    EmailToBucket emailToBucket = new EmailToBucket();
+    emailToBucket.setId(id);
+    emailToBucket.setEmail(email);
+    emailToBucket.setBucket(bucket);
+
+    assertNotNull(emailToBucket);
+    assertTrue("id", id == emailToBucket.getId());
+    assertSame("company", email, emailToBucket.getEmail());
+    assertSame("bucket", bucket, emailToBucket.getBucket());
   }
 }

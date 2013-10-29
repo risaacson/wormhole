@@ -62,19 +62,40 @@
 
 package com.eucalyptus.wormhole.model;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.junit.Assert.*;
+
 /**
- *
+ * Tests for {@link AwsProperties}.
  *
  * @author richard@eucalyptus.com (Richard Isaacson)
  */
-public class BlackholeProperties {
-  private String prefix;
+@RunWith(JUnit4.class)
+public class AwsPropertiesTest {
 
-  public String getPrefix() {
-    return prefix;
-  }
+  @Test
+  public void thisAlwaysPasses() {
+    final String region = "us-west-2";
+    final String proxyType = "none";
+    final String proxyProtocol = "http";
+    final String proxyHost = "a.host.com";
+    final int proxyPort = 8080;
 
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
+    AwsProperties awsProperties = new AwsProperties();
+    awsProperties.setRegion(region);
+    awsProperties.setProxyType(proxyType);
+    awsProperties.setProxyProtocol(proxyProtocol);
+    awsProperties.setProxyHost(proxyHost);
+    awsProperties.setProxyPort(proxyPort);
+
+    assertNotNull("awsProperties", awsProperties);
+    assertSame("region", region, awsProperties.getRegion());
+    assertSame("proxyType", proxyType, awsProperties.getProxyType());
+    assertSame("proxyProtocol", proxyProtocol, awsProperties.getProxyProtocol());
+    assertSame("proxyHost", proxyHost, awsProperties.getProxyHost());
+    assertTrue("proxyPort", proxyPort == awsProperties.getProxyPort());
   }
 }

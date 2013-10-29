@@ -62,19 +62,43 @@
 
 package com.eucalyptus.wormhole.model;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.junit.Assert.*;
+
 /**
- *
+ * Tests for {@link UploadLog}.
  *
  * @author richard@eucalyptus.com (Richard Isaacson)
  */
-public class BlackholeProperties {
-  private String prefix;
+@RunWith(JUnit4.class)
+public class UploadLogTest {
 
-  public String getPrefix() {
-    return prefix;
-  }
+  @Test
+  public void thisAlwaysPasses() {
+    int id = 12345;
+    String trackerId = "SDFAKLSAJDSFALSKDS";
+    String dateTime = "20131028090807";
+    String email = "joe@example.com";
+    String bucket = "example";
+    String fileName = "aFile.txt";
 
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
+    UploadLog uploadLog = new UploadLog();
+    uploadLog.setId(id);
+    uploadLog.setTrackerId(trackerId);
+    uploadLog.setDateTime(dateTime);
+    uploadLog.setEmail(email);
+    uploadLog.setBucket(bucket);
+    uploadLog.setFileName(fileName);
+
+    assertNotNull(uploadLog);
+    assertTrue("id", id == uploadLog.getId());
+    assertSame("trackerId", trackerId, uploadLog.getTrackerId());
+    assertSame("dateTime", dateTime, uploadLog.getDateTime());
+    assertSame("email", email, uploadLog.getEmail());
+    assertSame("bucket", bucket, uploadLog.getBucket());
+    assertSame("fileName", fileName, uploadLog.getFileName());
   }
 }

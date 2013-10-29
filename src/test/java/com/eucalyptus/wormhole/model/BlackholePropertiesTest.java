@@ -62,19 +62,29 @@
 
 package com.eucalyptus.wormhole.model;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
 /**
- *
+ * Tests for {@link BlackholeProperties}.
  *
  * @author richard@eucalyptus.com (Richard Isaacson)
  */
-public class BlackholeProperties {
-  private String prefix;
+@RunWith(JUnit4.class)
+public class BlackholePropertiesTest {
 
-  public String getPrefix() {
-    return prefix;
-  }
+  @Test
+  public void thisAlwaysPasses() {
+    String prefix = "blackhole-dev";
 
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
+    BlackholeProperties blackholeProperties = new BlackholeProperties();
+    blackholeProperties.setPrefix(prefix);
+
+    assertNotNull(blackholeProperties);
+    assertSame("prefix", prefix, blackholeProperties.getPrefix());
   }
 }
