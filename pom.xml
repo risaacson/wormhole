@@ -9,7 +9,32 @@
   <packaging>war</packaging>
 
   <name>wormhole</name>
+  <description>wormhole</description>
   <url>https://github.com/risaacson/wormhole</url>
+
+  <organization>
+    <name>Eucalyptus Systems, Inc.</name>
+    <url>http://eucalyptus.com/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name></name>
+      <url></url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>risaacson</id>
+      <name>Richard Isaacson</name>
+      <email>risaacson@eucalyptus.com</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git://github.com/risaacson/wormhole</connection>
+    <developerConnection>scm:git:git://github.com/risaacson/wormhole</developerConnection>
+    <url>https://github.com/risaacson/wormhole</url>
+  </scm>
 
   <properties>
     <java-version>1.7</java-version>
@@ -21,8 +46,16 @@
     <org.slf4j-version>1.7.5</org.slf4j-version>
     <spring.version>3.2.4.RELEASE</spring.version>
     <spring-data.version>1.3.4.RELEASE</spring-data.version>
-    <spring-security.version>3.1.4.RELEASE</spring-security.version>
+    <spring-security.version>3.2.0.RC1</spring-security.version>
+    <spring-security-oauth2.version>1.0.5.RELEASE</spring-security-oauth2.version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>spring-snasphot</id>
+      <url>http://repo.springsource.org/libs-snapshot</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <!-- Unit Testing -->
@@ -39,16 +72,16 @@
       <version>${org.slf4j-version}</version>
     </dependency>
     <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>jcl-over-slf4j</artifactId>
-          <version>${org.slf4j-version}</version>
-          <scope>runtime</scope>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${org.slf4j-version}</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-          <version>${org.slf4j-version}</version>
-          <scope>runtime</scope>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${org.slf4j-version}</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
@@ -56,16 +89,16 @@
       <version>1.2.15</version>
       <exclusions>
         <exclusion>
-                  <groupId>javax.mail</groupId>
-                  <artifactId>mail</artifactId>
+          <groupId>javax.mail</groupId>
+          <artifactId>mail</artifactId>
         </exclusion>
         <exclusion>
-                  <groupId>javax.jms</groupId>
-                  <artifactId>jms</artifactId>
+          <groupId>javax.jms</groupId>
+          <artifactId>jms</artifactId>
         </exclusion>
         <exclusion>
-                  <groupId>com.sun.jdmk</groupId>
-                  <artifactId>jmxtools</artifactId>
+          <groupId>com.sun.jdmk</groupId>
+          <artifactId>jmxtools</artifactId>
         </exclusion>
         <exclusion>
           <groupId>com.sun.jmx</groupId>
@@ -76,34 +109,39 @@
     </dependency>
 
 
-      <!-- Spring -->
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-context</artifactId>
-          <version>${spring.version}</version>
-          <exclusions>
-              <!-- Exclude Commons Logging in favor of SLF4j -->
-              <exclusion>
-                  <groupId>commons-logging</groupId>
-                  <artifactId>commons-logging</artifactId>
-              </exclusion>
-          </exclusions>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-webmvc</artifactId>
-          <version>${spring.version}</version>
-      </dependency>
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <!-- Exclude Commons Logging in favor of SLF4j -->
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
 
 
-      <!-- AspectJ -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${org.aspectj-version}</version>
-		</dependency>
+    <!-- AspectJ -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>${org.aspectj-version}</version>
+    </dependency>
 
-      <!-- Spring Data -->
+    <!-- Spring Data -->
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-jpa</artifactId>
@@ -131,6 +169,13 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
       <version>${spring-security.version}</version>
+    </dependency>
+
+    <!-- Spring Security OAuth2 -->
+    <dependency>
+      <groupId>org.springframework.security.oauth</groupId>
+      <artifactId>spring-security-oauth2</artifactId>
+      <version>${spring-security-oauth2.version}</version>
     </dependency>
 
     <!-- Hibernate -->
@@ -183,13 +228,13 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
-      <!--<scope>provided</scope>-->
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>javax.servlet.jsp-api</artifactId>
       <version>2.3.1</version>
-      <!--<scope>provided</scope>-->
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

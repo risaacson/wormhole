@@ -6,14 +6,18 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-  <http auto-config='true'>
-    <intercept-url pattern="/test" access="ROLE_USER" />
+  <http use-expressions="true">
+    <intercept-url pattern="/admin/**" access="ROLE_USER" />
+    <intercept-url pattern="/bucket/**" access="ROLE_USER" />
+    <intercept-url pattern="/log/**" access="permitAll" />
+    <intercept-url pattern="/resources/**" access="permitAll" />
+    <intercept-url pattern="/**" access="ROLE_USER" />
   </http>
 
   <authentication-manager>
     <authentication-provider>
       <user-service>
-        <user name="test" password="test" authorities="ROLE_USER" />
+        <user name="test1" password="test1" authorities="ROLE_USER" />
       </user-service>
     </authentication-provider>
   </authentication-manager>
